@@ -7,47 +7,27 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Arial, sans-serif; background: #0f0f1a; color: #eee; display: flex; flex-direction: column; align-items: center; padding: 16px; }
 h1 { font-size: 22px; color: #ffdd55; margin-bottom: 10px; letter-spacing: 2px; }
-
 #hud { display: flex; gap: 12px; margin-bottom: 10px; }
 .hud-feld { background: #1e1e2e; border: 1px solid #333; border-radius: 6px; padding: 5px 14px; text-align: center; }
 .hud-label { font-size: 10px; color: #666; text-transform: uppercase; }
 .hud-wert { font-size: 18px; font-weight: bold; }
-
 #spielbereich { display: flex; gap: 14px; align-items: flex-start; }
-canvas { border: 2px solid #333; display: block; cursor: crosshair; }
-
+canvas { border: 2px solid #333; display: block; cursor: crosshair; background: #000; }
 #sidebar { width: 175px; }
 #sidebar h3 { color: #888; font-size: 12px; margin-bottom: 8px; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
-.turm-karte {
-  background: #1a1a2e; border: 2px solid #333; border-radius: 8px;
-  padding: 10px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.12s;
-}
+.turm-karte { background: #1a1a2e; border: 2px solid #333; border-radius: 8px; padding: 10px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.12s; }
 .turm-karte:hover { border-color: #666; }
 .turm-karte.aktiv { border-color: #ffdd55; background: #1e1c0a; }
 .tk-name { font-weight: bold; font-size: 13px; margin-bottom: 3px; }
 .tk-stats { font-size: 11px; color: #777; line-height: 1.6; }
 .tk-kosten { font-size: 12px; color: #ffdd55; font-weight: bold; margin-top: 5px; }
-
-#btnStart {
-  width: 100%; padding: 9px; background: #1a5c24; border: 2px solid #2a8b36;
-  border-radius: 8px; color: #aaffaa; font-size: 14px; font-weight: bold;
-  cursor: pointer; margin-top: 2px; transition: background 0.12s;
-}
+#btnStart { width: 100%; padding: 9px; background: #1a5c24; border: 2px solid #2a8b36; border-radius: 8px; color: #aaffaa; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 2px; }
 #btnStart:hover:not(:disabled) { background: #226b2c; }
 #btnStart:disabled { background: #111; border-color: #222; color: #444; cursor: default; }
-
 .hinweis { font-size: 11px; color: #444; text-align: center; margin-top: 8px; line-height: 1.6; }
-
-#info-box {
-  margin-top: 12px; padding: 8px; background: #1a1a2e;
-  border: 1px solid #333; border-radius: 6px; font-size: 10px; color: #888; line-height: 1.7;
-}
+#info-box { margin-top: 12px; padding: 8px; background: #1a1a2e; border: 1px solid #333; border-radius: 6px; font-size: 10px; color: #888; line-height: 1.7; }
 #info-box b { color: #aaa; }
-
-#overlay-modal {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75);
-  z-index: 50; align-items: center; justify-content: center;
-}
+#overlay-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 50; align-items: center; justify-content: center; }
 #overlay-modal.zeigen { display: flex; }
 #modal-box { background: #1a1a2e; border: 2px solid #555; border-radius: 14px; padding: 40px 56px; text-align: center; }
 #modal-titel { font-size: 32px; margin-bottom: 10px; }
@@ -58,11 +38,11 @@ canvas { border: 2px solid #333; display: block; cursor: crosshair; }
 </head>
 <body>
 
-<h1>⚔ TOWER DEFENSE ⚔</h1>
+<h1>TOWER DEFENSE</h1>
 
 <div id="hud">
   <div class="hud-feld"><div class="hud-label">Gold</div><div class="hud-wert" id="hGold">150</div></div>
-  <div class="hud-feld"><div class="hud-label">Leben</div><div class="hud-wert" id="hLeben">❤ 20</div></div>
+  <div class="hud-feld"><div class="hud-label">Leben</div><div class="hud-wert" id="hLeben">20</div></div>
   <div class="hud-feld"><div class="hud-label">Welle</div><div class="hud-wert" id="hWelle">0 / 12</div></div>
   <div class="hud-feld"><div class="hud-label">Status</div><div class="hud-wert" id="hStatus">Bereit</div></div>
 </div>
@@ -71,57 +51,49 @@ canvas { border: 2px solid #333; display: block; cursor: crosshair; }
   <canvas id="canvas"></canvas>
   <div id="sidebar">
     <h3>Turm wählen</h3>
-
     <div class="turm-karte" id="tk0" onclick="waehleTurm(0)">
-      <div class="tk-name" style="color:#6699ff">🔵 Schütze</div>
+      <div class="tk-name" style="color:#6699ff">Schütze</div>
       <div class="tk-stats">Schaden: 25<br>Reichweite: mittel<br>Feuerrate: 1/s</div>
-      <div class="tk-kosten">⬡ 75 Gold</div>
+      <div class="tk-kosten">75 Gold</div>
     </div>
     <div class="turm-karte" id="tk1" onclick="waehleTurm(1)">
-      <div class="tk-name" style="color:#ff6666">🔴 Sniper</div>
+      <div class="tk-name" style="color:#ff6666">Sniper</div>
       <div class="tk-stats">Schaden: 90<br>Reichweite: groß<br>Feuerrate: 0.4/s</div>
-      <div class="tk-kosten">⬡ 150 Gold</div>
+      <div class="tk-kosten">150 Gold</div>
     </div>
     <div class="turm-karte" id="tk2" onclick="waehleTurm(2)">
-      <div class="tk-name" style="color:#55dd55">🟢 Gatling</div>
+      <div class="tk-name" style="color:#55dd55">Gatling</div>
       <div class="tk-stats">Schaden: 8<br>Reichweite: klein<br>Feuerrate: 5/s</div>
-      <div class="tk-kosten">⬡ 100 Gold</div>
+      <div class="tk-kosten">100 Gold</div>
     </div>
     <div class="turm-karte" id="tk3" onclick="waehleTurm(3)">
-      <div class="tk-name" style="color:#00eeff">⚡ Laser</div>
+      <div class="tk-name" style="color:#00eeff">Laser</div>
       <div class="tk-stats">Schaden: 4/Tick<br>Reichweite: groß<br>Feuerrate: 16/s</div>
-      <div class="tk-kosten">⬡ 125 Gold</div>
+      <div class="tk-kosten">125 Gold</div>
     </div>
     <div class="turm-karte" id="tk4" onclick="waehleTurm(4)">
-      <div class="tk-name" style="color:#ff8844">🚀 Rakete</div>
+      <div class="tk-name" style="color:#ff8844">Rakete</div>
       <div class="tk-stats">Schaden: 80 (Splash)<br>Reichweite: mittel<br>Feuerrate: 0.3/s</div>
-      <div class="tk-kosten">⬡ 150 Gold</div>
+      <div class="tk-kosten">150 Gold</div>
     </div>
-
-    <button id="btnStart" onclick="starteWelle()">▶ Welle starten</button>
-    <div class="hinweis">Klicke auf grüne<br>Felder zum Bauen.<br>Hover für Reichweite.</div>
-
+    <button id="btnStart" onclick="starteWelle()">Welle starten</button>
+    <div class="hinweis">Klicke auf grüne Felder<br>zum Bauen. Klicke auf<br>Turm fürs Upgrade.</div>
     <div id="upgrade-panel" style="display:none; margin-top:12px;">
       <div style="border-top:1px solid #333; padding-top:10px;">
         <div id="up-name" style="font-weight:bold; font-size:13px; margin-bottom:6px;"></div>
         <div id="up-stufe" style="font-size:11px; color:#ffdd55; margin-bottom:6px;"></div>
         <div id="up-stats" style="font-size:11px; color:#777; line-height:1.7; margin-bottom:8px;"></div>
-        <button id="up-btn" onclick="upgradeTurm()"
-          style="width:100%; padding:7px; background:#1a3a5c; border:2px solid #2a6a9c;
-                 border-radius:6px; color:#aaddff; font-size:13px; font-weight:bold;
-                 cursor:pointer; margin-bottom:5px;"></button>
-        <button onclick="waehleAb()"
-          style="width:100%; padding:5px; background:#222; border:1px solid #444;
-                 border-radius:6px; color:#888; font-size:12px; cursor:pointer;">✕ Abwählen</button>
+        <button id="up-btn" onclick="upgradeTurm()" style="width:100%; padding:7px; background:#1a3a5c; border:2px solid #2a6a9c; border-radius:6px; color:#aaddff; font-size:13px; font-weight:bold; cursor:pointer; margin-bottom:5px;"></button>
+        <button onclick="waehleAb()" style="width:100%; padding:5px; background:#222; border:1px solid #444; border-radius:6px; color:#888; font-size:12px; cursor:pointer;">Abwählen</button>
       </div>
     </div>
-
     <div id="info-box">
-      <b>Gegner:</b><br>
-      🟥 Läufer · 🟧 Sprinter<br>
-      ⬛ Panzer · 🟩 Heiler (+)<br>
-      🟦 Schild (◊) · 🟪 Splitter (✦)<br>
-      🟣 Rasender (!)
+      <b>Gegner-Typen:</b><br>
+      Läufer, Sprinter, Panzer<br>
+      Heiler (+): heilt Verbündete<br>
+      Schild (S): -50% Schaden<br>
+      Splitter (X): teilt sich<br>
+      Rasender (!): Speed bei low HP
     </div>
   </div>
 </div>
@@ -135,6 +107,8 @@ canvas { border: 2px solid #333; display: block; cursor: crosshair; }
 </div>
 
 <script>
+"use strict";
+
 const QUAD = 40;
 
 const karte = [
@@ -159,19 +133,24 @@ canvas.height = ROWS * QUAD;
 const ctx = canvas.getContext("2d");
 
 function berechnePfad() {
-  let sx = 0, sy = 0;
-  outer: for (let y = 0; y < ROWS; y++)
-    for (let x = 0; x < COLS; x++)
-      if (karte[y][x] === "W") { sx = x; sy = y; break outer; }
-  const visited = Array.from({length:ROWS}, () => Array(COLS).fill(false));
-  let x = sx, y = sy, path = [{x,y}];
+  let sx = 0, sy = 0, gefunden = false;
+  for (let y = 0; y < ROWS && !gefunden; y++) {
+    for (let x = 0; x < COLS && !gefunden; x++) {
+      if (karte[y][x] === "W") { sx = x; sy = y; gefunden = true; }
+    }
+  }
+  const visited = [];
+  for (let i = 0; i < ROWS; i++) visited.push(new Array(COLS).fill(false));
+  let x = sx, y = sy;
+  const path = [{x:x, y:y}];
   visited[y][x] = true;
+  const dirs = [{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
   while (true) {
     let moved = false;
-    for (const {dx,dy} of [{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}]) {
-      const nx = x+dx, ny = y+dy;
-      if (nx>=0&&nx<COLS&&ny>=0&&ny<ROWS&&karte[ny][nx]==="W"&&!visited[ny][nx]) {
-        x=nx; y=ny; path.push({x,y}); visited[y][x]=true; moved=true; break;
+    for (let d = 0; d < dirs.length; d++) {
+      const nx = x + dirs[d].dx, ny = y + dirs[d].dy;
+      if (nx>=0 && nx<COLS && ny>=0 && ny<ROWS && karte[ny][nx]==="W" && !visited[ny][nx]) {
+        x = nx; y = ny; path.push({x:x, y:y}); visited[y][x] = true; moved = true; break;
       }
     }
     if (!moved) break;
@@ -181,28 +160,24 @@ function berechnePfad() {
 const PFAD = berechnePfad();
 
 const TURM_DEFS = [
-  {farbe:"#4477ff", kosten:75,  schaden:25, reichweite:QUAD*2.5, feuerrate:1000, typ:"normal"},
-  {farbe:"#ff4444", kosten:150, schaden:90, reichweite:QUAD*4.5, feuerrate:2500, typ:"normal"},
-  {farbe:"#44cc44", kosten:100, schaden:8,  reichweite:QUAD*1.8, feuerrate:200,  typ:"normal"},
-  {farbe:"#00ccdd", kosten:125, schaden:4,  reichweite:QUAD*3,   feuerrate:60,   typ:"laser"},
-  {farbe:"#cc5500", kosten:150, schaden:80, reichweite:QUAD*2.8, feuerrate:3000, typ:"rakete", splash:QUAD*1.5},
+  {farbe:"#4477ff", dunkel:"#2a4488", kosten:75,  schaden:25, reichweite:QUAD*2.5, feuerrate:1000, typ:"normal"},
+  {farbe:"#ff4444", dunkel:"#882222", kosten:150, schaden:90, reichweite:QUAD*4.5, feuerrate:2500, typ:"normal"},
+  {farbe:"#44cc44", dunkel:"#226622", kosten:100, schaden:8,  reichweite:QUAD*1.8, feuerrate:200,  typ:"normal"},
+  {farbe:"#00ccdd", dunkel:"#005566", kosten:125, schaden:4,  reichweite:QUAD*3,   feuerrate:60,   typ:"laser"},
+  {farbe:"#cc5500", dunkel:"#662200", kosten:150, schaden:80, reichweite:QUAD*2.8, feuerrate:3000, typ:"rakete", splash:QUAD*1.5},
 ];
 
 const GEGNER_DEFS = [
-  {name:"Läufer",   farbe:"#ff3333", hpBase:100, speed:2.5, belohnung:8},
-  {name:"Sprinter", farbe:"#ffaa00", hpBase:60,  speed:4.5, belohnung:10},
-  {name:"Panzer",   farbe:"#660000", hpBase:500, speed:1.2, belohnung:25},
-  {name:"Heiler",   farbe:"#22cc66", hpBase:150, speed:2.0, belohnung:20,
-    faehigkeit:"heiler", heilProTick:6, heilRadius:QUAD*2.2, heilIntervall:900},
-  {name:"Schild",   farbe:"#aaccff", hpBase:200, speed:2.0, belohnung:18,
-    faehigkeit:"schild", schadenReduktion:0.5},
-  {name:"Splitter", farbe:"#ee44aa", hpBase:180, speed:2.5, belohnung:15,
-    faehigkeit:"splitter"},
-  {name:"Rasender", farbe:"#9933dd", hpBase:140, speed:2.0, belohnung:14,
-    faehigkeit:"rage", rageBonus:2.2, rageSchwelle:0.3},
+  {name:"Laeufer",  farbe:"#ff3333", dunkel:"#882222", hpBase:100, speed:2.5, belohnung:8},
+  {name:"Sprinter", farbe:"#ffaa00", dunkel:"#885500", hpBase:60,  speed:4.5, belohnung:10},
+  {name:"Panzer",   farbe:"#883333", dunkel:"#441111", hpBase:500, speed:1.2, belohnung:25},
+  {name:"Heiler",   farbe:"#22cc66", dunkel:"#114433", hpBase:150, speed:2.0, belohnung:20, faehigkeit:"heiler", heilProTick:6, heilRadius:QUAD*2.2, heilIntervall:900},
+  {name:"Schild",   farbe:"#aaccff", dunkel:"#445588", hpBase:200, speed:2.0, belohnung:18, faehigkeit:"schild", schadenReduktion:0.5},
+  {name:"Splitter", farbe:"#ee44aa", dunkel:"#771155", hpBase:180, speed:2.5, belohnung:15, faehigkeit:"splitter"},
+  {name:"Rasender", farbe:"#9933dd", dunkel:"#441166", hpBase:140, speed:2.0, belohnung:14, faehigkeit:"rage", rageBonus:2.2, rageSchwelle:0.3},
 ];
 
-const MINI_SPLITTER = {name:"Mini", farbe:"#ff99cc", hpBase:40, speed:3.5, belohnung:5};
+const MINI_SPLITTER = {name:"Mini", farbe:"#ff99cc", dunkel:"#883366", hpBase:40, speed:3.5, belohnung:5};
 
 const WELLEN = [
   [{typ:0,anz:5}],
@@ -219,20 +194,21 @@ const WELLEN = [
   [{typ:2,anz:3},{typ:3,anz:3},{typ:4,anz:4},{typ:5,anz:3},{typ:6,anz:5}],
 ];
 
-// Game state
-let gold, leben, welleNr, welleAktiv, spielOK;
-let tuerme, gegner, projektile, explosionen, spawnQueue, letzterSpawn;
+let gold = 150, leben = 20, welleNr = 0, welleAktiv = false, spielOK = true;
+let tuerme = [], gegner = [], projektile = [], explosionen = [], partikel = [];
+let spawnQueue = [], letzterSpawn = 0;
 let gewaehlteTurmTyp = 0;
 let gewaehlteTurm = null;
 let hoverX = -1, hoverY = -1;
 const MAX_STUFE = 3;
 
 function neuesSpiel() {
-  gold=150; leben=20; welleNr=0; welleAktiv=false; spielOK=true;
-  tuerme=[]; gegner=[]; projektile=[]; explosionen=[]; spawnQueue=[]; letzterSpawn=0;
-  gewaehlteTurm=null;
+  gold = 150; leben = 20; welleNr = 0; welleAktiv = false; spielOK = true;
+  tuerme = []; gegner = []; projektile = []; explosionen = []; partikel = [];
+  spawnQueue = []; letzterSpawn = 0;
+  gewaehlteTurm = null;
   document.getElementById("overlay-modal").classList.remove("zeigen");
-  document.getElementById("upgrade-panel").style.display="none";
+  document.getElementById("upgrade-panel").style.display = "none";
   waehleTurm(0);
   aktualisiereHUD();
 }
@@ -241,19 +217,23 @@ function upgradeKosten(t) { return Math.round(t.kosten * 0.6 * t.stufe); }
 
 function zeigeUpgradePanel(t) {
   gewaehlteTurm = t;
-  const namen = ["🔵 Schütze","🔴 Sniper","🟢 Gatling","⚡ Laser","🚀 Rakete"];
+  const namen = ["Schütze","Sniper","Gatling","Laser","Rakete"];
   const farben = ["#6699ff","#ff6666","#55dd55","#00eeff","#ff8844"];
-  const typIdx = t.typIdx ?? TURM_DEFS.findIndex(d => d.farbe === t.farbe);
-  document.getElementById("up-name").innerHTML =
-    `<span style="color:${farben[typIdx]}">${namen[typIdx]}</span>`;
+  let idx = t.typIdx;
+  if (idx === undefined) {
+    idx = 0;
+    for (let i = 0; i < TURM_DEFS.length; i++) if (TURM_DEFS[i].farbe === t.farbe) { idx = i; break; }
+  }
+  document.getElementById("up-name").innerHTML = '<span style="color:'+farben[idx]+'">'+namen[idx]+'</span>';
   aktualisiereUpgradePanel();
-  document.getElementById("upgrade-panel").style.display="block";
+  document.getElementById("upgrade-panel").style.display = "block";
 }
 
 function aktualisiereUpgradePanel() {
   if (!gewaehlteTurm) return;
   const t = gewaehlteTurm;
-  const sterne = "★".repeat(t.stufe) + "☆".repeat(MAX_STUFE - t.stufe);
+  let sterne = "";
+  for (let i = 0; i < MAX_STUFE; i++) sterne += (i < t.stufe ? "*" : "-");
   document.getElementById("up-stufe").textContent = "Stufe " + t.stufe + "  " + sterne;
   document.getElementById("up-stats").innerHTML =
     "Schaden: " + t.schaden +
@@ -261,11 +241,12 @@ function aktualisiereUpgradePanel() {
     "<br>Feuerrate: " + (1000/t.feuerrate).toFixed(1) + "/s";
   const btn = document.getElementById("up-btn");
   if (t.stufe >= MAX_STUFE) {
-    btn.textContent = "✔ Max. Stufe"; btn.disabled = true; btn.style.opacity = "0.4";
+    btn.textContent = "Max. Stufe"; btn.disabled = true; btn.style.opacity = "0.4";
   } else {
     const kosten = upgradeKosten(t);
-    btn.textContent = "⬆ Upgrade — " + kosten + " Gold";
-    btn.disabled = false; btn.style.opacity = gold >= kosten ? "1" : "0.5";
+    btn.textContent = "Upgrade — " + kosten + " Gold";
+    btn.disabled = false;
+    btn.style.opacity = gold >= kosten ? "1" : "0.5";
   }
 }
 
@@ -275,78 +256,137 @@ function upgradeTurm() {
   const kosten = upgradeKosten(t);
   if (gold < kosten) return;
   gold -= kosten; t.stufe++;
-  t.schaden    = Math.round(t.schaden * 1.5);
+  t.schaden = Math.round(t.schaden * 1.5);
   t.reichweite = Math.round(t.reichweite * 1.1);
-  t.feuerrate  = Math.round(t.feuerrate * 0.8);
+  t.feuerrate = Math.round(t.feuerrate * 0.8);
   aktualisiereHUD(); aktualisiereUpgradePanel();
 }
 
 function waehleAb() {
   gewaehlteTurm = null;
-  document.getElementById("upgrade-panel").style.display="none";
+  document.getElementById("upgrade-panel").style.display = "none";
 }
 
 function aktualisiereHUD() {
   document.getElementById("hGold").textContent = gold;
-  document.getElementById("hLeben").textContent = "❤ " + leben;
+  document.getElementById("hLeben").textContent = leben;
   document.getElementById("hWelle").textContent = welleNr + " / " + WELLEN.length;
-  document.getElementById("hStatus").textContent = welleAktiv ? "Welle läuft" : welleNr >= WELLEN.length ? "Sieg!" : "Bereit";
+  let status = "Bereit";
+  if (welleAktiv) status = "Welle läuft";
+  else if (welleNr >= WELLEN.length) status = "Sieg!";
+  document.getElementById("hStatus").textContent = status;
   document.getElementById("btnStart").disabled = welleAktiv || welleNr >= WELLEN.length || !spielOK;
 }
 
 function waehleTurm(idx) {
   gewaehlteTurmTyp = idx;
-  for (let i = 0; i < TURM_DEFS.length; i++)
-    document.getElementById("tk"+i).classList.toggle("aktiv", i===idx);
+  for (let i = 0; i < TURM_DEFS.length; i++) {
+    const el = document.getElementById("tk"+i);
+    if (el) el.classList.toggle("aktiv", i === idx);
+  }
 }
 
 function erzeugeGegner(def, px, py, idx) {
-  const skala = def === MINI_SPLITTER ? 1 : (1 + welleNr * 0.18);
+  const skala = (def === MINI_SPLITTER) ? 1 : (1 + welleNr * 0.18);
   const hp = Math.round(def.hpBase * skala);
-  return {...def, hp, maxHp:hp, px, py, idx, lastHeil:0, heilEffekt:0};
+  const g = {
+    name: def.name, farbe: def.farbe, dunkel: def.dunkel,
+    speed: def.speed, belohnung: def.belohnung,
+    hp: hp, maxHp: hp, px: px, py: py, idx: idx,
+    walkPhase: Math.random() * Math.PI * 2,
+    lastHeil: 0, heilEffekt: 0
+  };
+  if (def.faehigkeit) g.faehigkeit = def.faehigkeit;
+  if (def.heilProTick !== undefined) g.heilProTick = def.heilProTick;
+  if (def.heilRadius !== undefined) g.heilRadius = def.heilRadius;
+  if (def.heilIntervall !== undefined) g.heilIntervall = def.heilIntervall;
+  if (def.schadenReduktion !== undefined) g.schadenReduktion = def.schadenReduktion;
+  if (def.rageBonus !== undefined) g.rageBonus = def.rageBonus;
+  if (def.rageSchwelle !== undefined) g.rageSchwelle = def.rageSchwelle;
+  return g;
 }
 
 function starteWelle() {
   if (welleAktiv || welleNr >= WELLEN.length || !spielOK) return;
   welleAktiv = true;
   spawnQueue = [];
-  for (const gruppe of WELLEN[welleNr])
-    for (let i = 0; i < gruppe.anz; i++)
-      spawnQueue.push(GEGNER_DEFS[gruppe.typ]);
-  for (let i = spawnQueue.length-1; i > 0; i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [spawnQueue[i], spawnQueue[j]] = [spawnQueue[j], spawnQueue[i]];
+  const welle = WELLEN[welleNr];
+  for (let i = 0; i < welle.length; i++) {
+    const gruppe = welle[i];
+    for (let k = 0; k < gruppe.anz; k++) spawnQueue.push(GEGNER_DEFS[gruppe.typ]);
+  }
+  for (let i = spawnQueue.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = spawnQueue[i]; spawnQueue[i] = spawnQueue[j]; spawnQueue[j] = tmp;
   }
   letzterSpawn = Date.now() - 1001;
   welleNr++;
   aktualisiereHUD();
 }
 
-canvas.addEventListener("mousemove", e => {
+canvas.addEventListener("mousemove", function(e) {
   const r = canvas.getBoundingClientRect();
-  hoverX = Math.floor((e.clientX-r.left)/QUAD);
-  hoverY = Math.floor((e.clientY-r.top)/QUAD);
+  hoverX = Math.floor((e.clientX - r.left) / QUAD);
+  hoverY = Math.floor((e.clientY - r.top) / QUAD);
 });
-canvas.addEventListener("mouseleave", () => { hoverX=-1; hoverY=-1; });
+canvas.addEventListener("mouseleave", function() { hoverX = -1; hoverY = -1; });
 
-canvas.addEventListener("click", e => {
+canvas.addEventListener("click", function(e) {
   if (!spielOK) return;
   const r = canvas.getBoundingClientRect();
-  const tx = Math.floor((e.clientX-r.left)/QUAD);
-  const ty = Math.floor((e.clientY-r.top)/QUAD);
-  if (ty<0||ty>=ROWS||tx<0||tx>=COLS) return;
+  const tx = Math.floor((e.clientX - r.left) / QUAD);
+  const ty = Math.floor((e.clientY - r.top) / QUAD);
+  if (ty < 0 || ty >= ROWS || tx < 0 || tx >= COLS) return;
   if (karte[ty][tx] !== "G") return;
-  const vorhandener = tuerme.find(t => t.tx===tx && t.ty===ty);
-  if (vorhandener) { zeigeUpgradePanel(vorhandener); return; }
+  for (let i = 0; i < tuerme.length; i++) {
+    if (tuerme[i].tx === tx && tuerme[i].ty === ty) { zeigeUpgradePanel(tuerme[i]); return; }
+  }
   waehleAb();
   const def = TURM_DEFS[gewaehlteTurmTyp];
   if (gold < def.kosten) return;
   gold -= def.kosten;
-  tuerme.push({...def, tx, ty, px:tx*QUAD+QUAD/2, py:ty*QUAD+QUAD/2, lastShot:0, target:null, stufe:1, typIdx:gewaehlteTurmTyp});
+  const turm = {
+    farbe: def.farbe, dunkel: def.dunkel, kosten: def.kosten,
+    schaden: def.schaden, reichweite: def.reichweite,
+    feuerrate: def.feuerrate, typ: def.typ,
+    tx: tx, ty: ty, px: tx*QUAD + QUAD/2, py: ty*QUAD + QUAD/2,
+    lastShot: 0, target: null, stufe: 1, typIdx: gewaehlteTurmTyp,
+    aimAngle: 0, recoil: 0, muzzleFlash: 0, gatlingSpin: 0
+  };
+  if (def.splash !== undefined) turm.splash = def.splash;
+  tuerme.push(turm);
   aktualisiereHUD();
 });
 
-// Zentrale Schadensfunktion — handhabt Schild und Splitter-Tod
+function spawnePartikel(px, py, farbe, anzahl, spd) {
+  if (spd === undefined) spd = 3;
+  for (let i = 0; i < anzahl; i++) {
+    const ang = Math.random() * Math.PI * 2;
+    const s = (0.5 + Math.random()) * spd;
+    partikel.push({
+      x: px, y: py,
+      vx: Math.cos(ang) * s, vy: Math.sin(ang) * s,
+      farbe: farbe, life: 1, groesse: 2 + Math.random() * 2
+    });
+  }
+}
+
+function aktualisiereUndZeichnePartikel(dt) {
+  for (let i = partikel.length - 1; i >= 0; i--) {
+    const p = partikel[i];
+    p.life -= dt / 700;
+    if (p.life <= 0) { partikel.splice(i, 1); continue; }
+    p.x += p.vx * (dt / 16);
+    p.y += p.vy * (dt / 16);
+    p.vy += 0.18 * (dt / 16);
+    p.vx *= 0.96; p.vy *= 0.96;
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.fillStyle = p.farbe;
+    ctx.fillRect(p.x - p.groesse/2, p.y - p.groesse/2, p.groesse, p.groesse);
+  }
+  ctx.globalAlpha = 1;
+}
+
 function tueSchaden(g, schaden) {
   let endgueltig = schaden;
   if (g.faehigkeit === "schild") endgueltig *= (1 - g.schadenReduktion);
@@ -356,11 +396,13 @@ function tueSchaden(g, schaden) {
     const idx = gegner.indexOf(g);
     if (idx < 0) return true;
     gegner.splice(idx, 1);
+    spawnePartikel(g.px, g.py, g.farbe, 12, 3);
+    spawnePartikel(g.px, g.py, g.dunkel, 6, 2);
     if (g.faehigkeit === "splitter") {
       for (let k = 0; k < 3; k++) {
-        const ox = (Math.random()-0.5) * 12;
-        const oy = (Math.random()-0.5) * 12;
-        gegner.push(erzeugeGegner(MINI_SPLITTER, g.px+ox, g.py+oy, g.idx));
+        const ox = (Math.random() - 0.5) * 12;
+        const oy = (Math.random() - 0.5) * 12;
+        gegner.push(erzeugeGegner(MINI_SPLITTER, g.px + ox, g.py + oy, g.idx));
       }
     }
     return true;
@@ -372,81 +414,476 @@ function zeichneKarte() {
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
       const k = karte[y][x];
-      if (k==="W")      ctx.fillStyle = "#7a5230";
-      else if (k==="G") ctx.fillStyle = (x+y)%2===0 ? "#2a6018" : "#246015";
-      else if (k==="M") ctx.fillStyle = "#4a4a5a";
-      else              ctx.fillStyle = "#1a3a8a";
-      ctx.fillRect(x*QUAD, y*QUAD, QUAD, QUAD);
+      if (k === "W") ctx.fillStyle = "#7a5230";
+      else if (k === "G") ctx.fillStyle = ((x+y) % 2 === 0) ? "#2a6018" : "#246015";
+      else if (k === "M") ctx.fillStyle = "#4a4a5a";
+      else ctx.fillStyle = "#1a3a8a";
+      ctx.fillRect(x * QUAD, y * QUAD, QUAD, QUAD);
     }
   }
-  ctx.strokeStyle = "rgba(0,0,0,0.1)"; ctx.lineWidth = 0.5;
-  for (let y = 0; y < ROWS; y++)
-    for (let x = 0; x < COLS; x++)
-      if (karte[y][x]==="G")
-        ctx.strokeRect(x*QUAD+0.5, y*QUAD+0.5, QUAD-1, QUAD-1);
-  ctx.lineWidth = 1;
 }
 
 function zeichneHover() {
-  if (hoverX<0||hoverY<0||hoverX>=COLS||hoverY>=ROWS) return;
+  if (hoverX < 0 || hoverY < 0 || hoverX >= COLS || hoverY >= ROWS) return;
   if (karte[hoverY][hoverX] !== "G") return;
-  if (tuerme.some(t => t.tx===hoverX && t.ty===hoverY)) return;
+  for (let i = 0; i < tuerme.length; i++) if (tuerme[i].tx === hoverX && tuerme[i].ty === hoverY) return;
   const def = TURM_DEFS[gewaehlteTurmTyp];
-  const px = hoverX*QUAD+QUAD/2, py = hoverY*QUAD+QUAD/2;
-  ctx.globalAlpha = 0.12;
+  const px = hoverX * QUAD + QUAD/2, py = hoverY * QUAD + QUAD/2;
+  ctx.globalAlpha = 0.15;
   ctx.fillStyle = def.farbe;
-  ctx.beginPath(); ctx.arc(px, py, def.reichweite, 0, 2*Math.PI); ctx.fill();
-  ctx.globalAlpha = 0.45;
+  ctx.beginPath(); ctx.arc(px, py, def.reichweite, 0, 2 * Math.PI); ctx.fill();
+  ctx.globalAlpha = 0.5;
   ctx.strokeStyle = def.farbe; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.arc(px, py, def.reichweite, 0, 2*Math.PI); ctx.stroke();
-  ctx.globalAlpha = gold >= def.kosten ? 0.45 : 0.15;
+  ctx.beginPath(); ctx.arc(px, py, def.reichweite, 0, 2 * Math.PI); ctx.stroke();
+  ctx.globalAlpha = (gold >= def.kosten) ? 0.5 : 0.2;
   ctx.fillStyle = def.farbe;
-  ctx.fillRect(hoverX*QUAD+5, hoverY*QUAD+5, QUAD-10, QUAD-10);
+  ctx.beginPath(); ctx.arc(px, py, 12, 0, 2 * Math.PI); ctx.fill();
   ctx.globalAlpha = 1;
 }
 
-function zeichneTuerme() {
-  for (const t of tuerme) {
-    if (hoverX===t.tx && hoverY===t.ty) {
-      ctx.globalAlpha = 0.1; ctx.fillStyle = t.farbe;
-      ctx.beginPath(); ctx.arc(t.px, t.py, t.reichweite, 0, 2*Math.PI); ctx.fill();
-      ctx.globalAlpha = 0.35; ctx.strokeStyle = t.farbe; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(t.px, t.py, t.reichweite, 0, 2*Math.PI); ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
-    if (gewaehlteTurm === t) {
-      ctx.strokeStyle = "#ffff00"; ctx.lineWidth = 2;
-      ctx.strokeRect(t.tx*QUAD+1, t.ty*QUAD+1, QUAD-2, QUAD-2);
-      ctx.lineWidth = 1;
-    }
-    ctx.fillStyle = t.farbe;
-    ctx.fillRect(t.tx*QUAD+4, t.ty*QUAD+4, QUAD-8, QUAD-8);
-    ctx.fillStyle = "rgba(255,255,255,0.2)";
-    ctx.fillRect(t.tx*QUAD+4, t.ty*QUAD+4, QUAD-8, 5);
-    for (let s = 0; s < t.stufe; s++) {
-      ctx.fillStyle = "#ffdd55";
+// ====== TURM-MODELLE ======
+
+function zeichneTurmModell(t, now) {
+  if ((hoverX === t.tx && hoverY === t.ty) || gewaehlteTurm === t) {
+    ctx.globalAlpha = 0.12; ctx.fillStyle = t.farbe;
+    ctx.beginPath(); ctx.arc(t.px, t.py, t.reichweite, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 0.4; ctx.strokeStyle = t.farbe; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(t.px, t.py, t.reichweite, 0, 2 * Math.PI); ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+  if (gewaehlteTurm === t) {
+    ctx.strokeStyle = "#ffff00"; ctx.lineWidth = 2;
+    ctx.strokeRect(t.tx * QUAD + 1, t.ty * QUAD + 1, QUAD - 2, QUAD - 2);
+    ctx.lineWidth = 1;
+  }
+  ctx.fillStyle = "rgba(0,0,0,0.3)";
+  ctx.beginPath(); ctx.ellipse(t.px + 1, t.py + QUAD * 0.32, QUAD * 0.4, QUAD * 0.12, 0, 0, 2 * Math.PI); ctx.fill();
+
+  if (t.target) {
+    const za = Math.atan2(t.target.py - t.py, t.target.px - t.px);
+    let diff = za - t.aimAngle;
+    while (diff > Math.PI) diff -= 2 * Math.PI;
+    while (diff < -Math.PI) diff += 2 * Math.PI;
+    t.aimAngle += diff * 0.2;
+  }
+  t.recoil = Math.max(0, t.recoil - 0.15);
+  t.muzzleFlash = Math.max(0, t.muzzleFlash - 0.12);
+
+  ctx.save();
+  ctx.translate(t.px, t.py);
+  if (t.typIdx === 0) zeichneSchuetze(t, now);
+  else if (t.typIdx === 1) zeichneSniper(t, now);
+  else if (t.typIdx === 2) zeichneGatling(t, now);
+  else if (t.typIdx === 3) zeichneLaser(t, now);
+  else if (t.typIdx === 4) zeichneRakete(t, now);
+  ctx.restore();
+
+  for (let s = 0; s < t.stufe; s++) {
+    ctx.fillStyle = "#ffdd55";
+    ctx.strokeStyle = "#000"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(t.tx * QUAD + 8 + s * 8, t.ty * QUAD + QUAD - 6, 3, 0, 2 * Math.PI);
+    ctx.fill(); ctx.stroke();
+  }
+}
+
+function zeichneSchuetze(t, now) {
+  ctx.fillStyle = t.dunkel;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.42, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = t.farbe;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.36, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = "rgba(255,255,255,0.25)";
+  ctx.beginPath(); ctx.arc(-4, -4, QUAD * 0.18, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = t.dunkel;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.2, 0, 2 * Math.PI); ctx.fill();
+  ctx.rotate(t.aimAngle);
+  const r = t.recoil * 4;
+  ctx.fillStyle = "#444";
+  ctx.fillRect(-3 - r, -3, 18 - r, 6);
+  ctx.fillStyle = "#222";
+  ctx.fillRect(13 - r, -4, 4, 8);
+  if (t.muzzleFlash > 0) {
+    ctx.globalAlpha = t.muzzleFlash;
+    ctx.fillStyle = "#ffee88";
+    ctx.beginPath(); ctx.arc(20 - r, 0, 5 + t.muzzleFlash * 3, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+function zeichneSniper(t, now) {
+  ctx.fillStyle = t.dunkel;
+  ctx.fillRect(-QUAD * 0.4, -QUAD * 0.4, QUAD * 0.8, QUAD * 0.8);
+  ctx.fillStyle = t.farbe;
+  ctx.fillRect(-QUAD * 0.36, -QUAD * 0.36, QUAD * 0.72, QUAD * 0.72);
+  ctx.fillStyle = "rgba(255,255,255,0.15)";
+  ctx.fillRect(-QUAD * 0.36, -QUAD * 0.36, QUAD * 0.72, QUAD * 0.15);
+  ctx.fillStyle = t.dunkel;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.22, 0, 2 * Math.PI); ctx.fill();
+  ctx.rotate(t.aimAngle);
+  const r = t.recoil * 6;
+  ctx.fillStyle = "#333";
+  ctx.fillRect(-4 - r, -2, 26 - r, 4);
+  ctx.fillStyle = "#111";
+  ctx.fillRect(20 - r, -3, 3, 6);
+  ctx.fillStyle = "#222";
+  ctx.fillRect(2, -5, 6, 3);
+  ctx.fillStyle = "#ff3333";
+  ctx.fillRect(4, -4, 2, 1);
+  if (t.muzzleFlash > 0) {
+    ctx.globalAlpha = t.muzzleFlash;
+    ctx.fillStyle = "#ffaa44";
+    ctx.beginPath(); ctx.arc(25 - r, 0, 6 + t.muzzleFlash * 4, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+function zeichneGatling(t, now) {
+  ctx.fillStyle = t.dunkel;
+  ctx.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const a = (Math.PI * 2 / 8) * i;
+    const x = Math.cos(a) * QUAD * 0.42, y = Math.sin(a) * QUAD * 0.42;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = t.farbe;
+  ctx.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const a = (Math.PI * 2 / 8) * i;
+    const x = Math.cos(a) * QUAD * 0.36, y = Math.sin(a) * QUAD * 0.36;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath(); ctx.fill();
+  if (t.target) t.gatlingSpin += 0.4;
+  ctx.fillStyle = t.dunkel;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.22, 0, 2 * Math.PI); ctx.fill();
+  ctx.rotate(t.aimAngle);
+  const r = t.recoil * 2;
+  ctx.save();
+  ctx.rotate(t.gatlingSpin);
+  for (let i = 0; i < 3; i++) {
+    const a = (Math.PI * 2 / 3) * i;
+    ctx.fillStyle = "#333";
+    ctx.save(); ctx.rotate(a);
+    ctx.fillRect(2 - r, -1.5, 14 - r, 3);
+    ctx.restore();
+  }
+  ctx.restore();
+  if (t.muzzleFlash > 0) {
+    ctx.globalAlpha = t.muzzleFlash;
+    ctx.fillStyle = "#ffff88";
+    ctx.beginPath(); ctx.arc(16 - r, 0, 4 + t.muzzleFlash * 3, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+function zeichneLaser(t, now) {
+  ctx.fillStyle = t.dunkel;
+  ctx.beginPath();
+  ctx.moveTo(0, -QUAD * 0.42); ctx.lineTo(QUAD * 0.42, 0);
+  ctx.lineTo(0, QUAD * 0.42); ctx.lineTo(-QUAD * 0.42, 0);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = t.farbe;
+  ctx.beginPath();
+  ctx.moveTo(0, -QUAD * 0.34); ctx.lineTo(QUAD * 0.34, 0);
+  ctx.lineTo(0, QUAD * 0.34); ctx.lineTo(-QUAD * 0.34, 0);
+  ctx.closePath(); ctx.fill();
+  const puls = 0.6 + 0.4 * Math.sin(now / 200);
+  ctx.fillStyle = "#ffffff";
+  ctx.globalAlpha = puls;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.15, 0, 2 * Math.PI); ctx.fill();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = "#aaffff";
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.08, 0, 2 * Math.PI); ctx.fill();
+  if (t.target) {
+    ctx.rotate(t.aimAngle);
+    ctx.fillStyle = t.dunkel;
+    ctx.fillRect(0, -3, 14, 6);
+    ctx.fillStyle = "#00ffff";
+    ctx.globalAlpha = puls;
+    ctx.fillRect(10, -2, 5, 4);
+    ctx.globalAlpha = 1;
+  }
+}
+
+function zeichneRakete(t, now) {
+  ctx.fillStyle = t.dunkel;
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const a = (Math.PI * 2 / 6) * i;
+    const x = Math.cos(a) * QUAD * 0.42, y = Math.sin(a) * QUAD * 0.42;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = t.farbe;
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const a = (Math.PI * 2 / 6) * i;
+    const x = Math.cos(a) * QUAD * 0.36, y = Math.sin(a) * QUAD * 0.36;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = t.dunkel;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.18, 0, 2 * Math.PI); ctx.fill();
+  ctx.rotate(t.aimAngle);
+  const r = t.recoil * 5;
+  const offs = [-5, 5];
+  for (let i = 0; i < offs.length; i++) {
+    const off = offs[i];
+    ctx.fillStyle = "#333";
+    ctx.fillRect(-2 - r, off - 3, 16 - r, 6);
+    ctx.fillStyle = "#222";
+    ctx.beginPath(); ctx.arc(14 - r, off, 3, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillStyle = "#ff8844";
+    ctx.fillRect(11 - r, off - 1.5, 3, 3);
+  }
+  if (t.muzzleFlash > 0) {
+    ctx.globalAlpha = t.muzzleFlash;
+    ctx.fillStyle = "#888";
+    for (let i = 0; i < offs.length; i++) {
       ctx.beginPath();
-      ctx.arc(t.tx*QUAD+8+s*8, t.ty*QUAD+QUAD-7, 3, 0, 2*Math.PI);
-      ctx.fill();
+      ctx.arc(18 - r, offs[i], 4 + t.muzzleFlash * 3, 0, 2 * Math.PI); ctx.fill();
     }
-    if (t.target && t.typ !== "laser") {
-      const dx = t.target.px-t.px, dy = t.target.py-t.py;
-      const d = Math.hypot(dx,dy) || 1;
-      ctx.strokeStyle = "#ddd"; ctx.lineWidth = 3;
+    ctx.globalAlpha = 1;
+  }
+}
+
+// ====== GEGNER-MODELLE ======
+
+function zeichneGegnerModell(g, now) {
+  if (g.faehigkeit === "heiler") {
+    ctx.save();
+    ctx.globalAlpha = 0.1; ctx.fillStyle = "#22ff66";
+    ctx.beginPath(); ctx.arc(g.px, g.py, g.heilRadius, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 0.3; ctx.strokeStyle = "#22ff88"; ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.arc(g.px, g.py, g.heilRadius, 0, 2 * Math.PI); ctx.stroke();
+    ctx.setLineDash([]); ctx.restore();
+    if (g.heilEffekt && (now - g.heilEffekt) < 300) {
+      const t = (now - g.heilEffekt) / 300;
+      ctx.globalAlpha = (1 - t) * 0.7;
+      ctx.strokeStyle = "#88ff99"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(g.px, g.py, g.heilRadius * t, 0, 2 * Math.PI); ctx.stroke();
+      ctx.globalAlpha = 1; ctx.lineWidth = 1;
+    }
+  }
+
+  ctx.fillStyle = "rgba(0,0,0,0.4)";
+  ctx.beginPath();
+  ctx.ellipse(g.px, g.py + QUAD * 0.3, QUAD * 0.3, QUAD * 0.1, 0, 0, 2 * Math.PI);
+  ctx.fill();
+
+  const bob = Math.sin(g.walkPhase) * 1.5;
+  const legSwing = Math.sin(g.walkPhase) * 3;
+
+  ctx.save();
+  ctx.translate(g.px, g.py - bob);
+
+  const ragt = (g.faehigkeit === "rage") && (g.hp / g.maxHp < g.rageSchwelle);
+  if (ragt) {
+    ctx.save();
+    ctx.globalAlpha = 0.4 + 0.25 * Math.sin(now / 80);
+    ctx.fillStyle = "#ff2200";
+    ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.5, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = 1; ctx.restore();
+  }
+
+  if (g.name === "Laeufer") zeichneLaeuferM(g, now, legSwing);
+  else if (g.name === "Sprinter") zeichneSprinterM(g, now, legSwing);
+  else if (g.name === "Panzer") zeichnePanzerM(g, now);
+  else if (g.name === "Heiler") zeichneHeilerM(g, now, legSwing);
+  else if (g.name === "Schild") zeichneSchildM(g, now, legSwing);
+  else if (g.name === "Splitter") zeichneSplitterM(g, now);
+  else if (g.name === "Rasender") zeichneRasenderM(g, now, legSwing, ragt);
+  else if (g.name === "Mini") zeichneMiniM(g, now);
+
+  ctx.restore();
+
+  const pct = Math.max(0, g.hp / g.maxHp);
+  ctx.fillStyle = "#111"; ctx.fillRect(g.px - QUAD/2 + 3, g.py - QUAD/2 - 6, QUAD - 6, 4);
+  if (pct > 0.6) ctx.fillStyle = "#33cc33";
+  else if (pct > 0.3) ctx.fillStyle = "#ffaa00";
+  else ctx.fillStyle = "#ff3333";
+  ctx.fillRect(g.px - QUAD/2 + 3, g.py - QUAD/2 - 6, (QUAD - 6) * pct, 4);
+}
+
+function zeichneLaeuferM(g, now, leg) {
+  ctx.fillStyle = g.dunkel;
+  ctx.fillRect(-7, 8, 5, 6 + leg);
+  ctx.fillRect(2, 8, 5, 6 - leg);
+  ctx.fillStyle = g.farbe;
+  ctx.beginPath(); ctx.ellipse(0, 0, QUAD * 0.28, QUAD * 0.32, 0, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(0, -10, 6, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath(); ctx.arc(-2, -10, 1.5, 0, 2 * Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(2, -10, 1.5, 0, 2 * Math.PI); ctx.fill();
+}
+
+function zeichneSprinterM(g, now, leg) {
+  ctx.fillStyle = g.dunkel;
+  ctx.fillRect(-6, 6, 4, 9 + leg * 1.5);
+  ctx.fillRect(2, 6, 4, 9 - leg * 1.5);
+  ctx.save();
+  ctx.rotate(0.15);
+  ctx.fillStyle = g.farbe;
+  ctx.beginPath(); ctx.ellipse(0, 0, QUAD * 0.22, QUAD * 0.3, 0, 0, 2 * Math.PI); ctx.fill();
+  ctx.restore();
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(2, -9, 5, 0, 2 * Math.PI); ctx.fill();
+  ctx.strokeStyle = g.farbe; ctx.lineWidth = 1;
+  ctx.globalAlpha = 0.6;
+  ctx.beginPath(); ctx.moveTo(-12, -2); ctx.lineTo(-6, -2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-14, 2); ctx.lineTo(-8, 2); ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+function zeichnePanzerM(g, now) {
+  const treadShift = (now / 50) % 6;
+  ctx.fillStyle = "#222";
+  ctx.fillRect(-QUAD * 0.42, -QUAD * 0.32, 4, QUAD * 0.64);
+  ctx.fillRect(QUAD * 0.42 - 4, -QUAD * 0.32, 4, QUAD * 0.64);
+  ctx.fillStyle = "#555";
+  for (let y = -QUAD * 0.3; y < QUAD * 0.3; y += 6) {
+    const yy = y + treadShift;
+    ctx.fillRect(-QUAD * 0.42, yy, 4, 2);
+    ctx.fillRect(QUAD * 0.42 - 4, yy, 4, 2);
+  }
+  ctx.fillStyle = g.dunkel;
+  ctx.fillRect(-QUAD * 0.35, -QUAD * 0.28, QUAD * 0.7, QUAD * 0.56);
+  ctx.fillStyle = g.farbe;
+  ctx.fillRect(-QUAD * 0.32, -QUAD * 0.25, QUAD * 0.64, QUAD * 0.5);
+  ctx.fillStyle = g.dunkel;
+  const xs = [-9, 9], ys = [-7, 7];
+  for (let i = 0; i < xs.length; i++) {
+    for (let j = 0; j < ys.length; j++) {
+      ctx.beginPath(); ctx.arc(xs[i], ys[j], 1.5, 0, 2 * Math.PI); ctx.fill();
+    }
+  }
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.18, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = g.farbe;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.14, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = "#222";
+  ctx.fillRect(0, -2, 13, 4);
+}
+
+function zeichneHeilerM(g, now, leg) {
+  ctx.fillStyle = g.dunkel;
+  ctx.fillRect(-5, 9, 4, 5);
+  ctx.fillRect(1, 9, 4, 5);
+  ctx.fillStyle = g.farbe;
+  ctx.beginPath();
+  ctx.moveTo(0, -8); ctx.lineTo(-12, 10); ctx.lineTo(12, 10);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = g.dunkel; ctx.lineWidth = 1; ctx.stroke();
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(0, -8, 7, 0, Math.PI, true); ctx.fill();
+  ctx.fillStyle = "#001100";
+  ctx.beginPath(); ctx.arc(0, -7, 4, 0, 2 * Math.PI); ctx.fill();
+  const puls = 0.6 + 0.4 * Math.sin(now / 200);
+  ctx.fillStyle = "rgba(150, 255, 180, " + puls + ")";
+  ctx.beginPath(); ctx.arc(-2, -7, 1.2, 0, 2 * Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(2, -7, 1.2, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(-1, 1, 2, 6);
+  ctx.fillRect(-3, 3, 6, 2);
+}
+
+function zeichneSchildM(g, now, leg) {
+  ctx.fillStyle = g.dunkel;
+  ctx.fillRect(-6, 8, 4, 6 + leg);
+  ctx.fillRect(2, 8, 4, 6 - leg);
+  ctx.fillStyle = g.farbe;
+  ctx.beginPath(); ctx.ellipse(0, 0, QUAD * 0.25, QUAD * 0.3, 0, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(0, -10, 5, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = "#ddeeff";
+  ctx.fillRect(-3, -12, 6, 2);
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath();
+  ctx.moveTo(-12, -6); ctx.lineTo(12, -6); ctx.lineTo(10, 8);
+  ctx.lineTo(0, 12); ctx.lineTo(-10, 8); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#ddeeff";
+  ctx.beginPath();
+  ctx.moveTo(-9, -4); ctx.lineTo(9, -4); ctx.lineTo(7, 6);
+  ctx.lineTo(0, 9); ctx.lineTo(-7, 6); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(0, 1, 3, 0, 2 * Math.PI); ctx.fill();
+}
+
+function zeichneSplitterM(g, now) {
+  const puls = 1 + 0.1 * Math.sin(now / 180);
+  ctx.save();
+  ctx.rotate(now / 700);
+  ctx.fillStyle = g.dunkel;
+  for (let i = 0; i < 6; i++) {
+    const a = (Math.PI * 2 / 6) * i;
+    ctx.beginPath();
+    ctx.moveTo(Math.cos(a) * QUAD * 0.45 * puls, Math.sin(a) * QUAD * 0.45 * puls);
+    ctx.lineTo(Math.cos(a + 0.3) * QUAD * 0.28, Math.sin(a + 0.3) * QUAD * 0.28);
+    ctx.lineTo(Math.cos(a - 0.3) * QUAD * 0.28, Math.sin(a - 0.3) * QUAD * 0.28);
+    ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+  ctx.fillStyle = g.farbe;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.3 * puls, 0, 2 * Math.PI); ctx.fill();
+  ctx.strokeStyle = g.dunkel; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = "#ffffff";
+  ctx.globalAlpha = 0.6;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.12, 0, 2 * Math.PI); ctx.fill();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(0, 0, 3, 0, 2 * Math.PI); ctx.fill();
+}
+
+function zeichneRasenderM(g, now, leg, ragt) {
+  ctx.fillStyle = g.dunkel;
+  ctx.fillRect(-6, 8, 4, 6 + leg);
+  ctx.fillRect(2, 8, 4, 6 - leg);
+  ctx.fillStyle = g.farbe;
+  ctx.beginPath(); ctx.ellipse(0, 0, QUAD * 0.26, QUAD * 0.3, 0, 0, 2 * Math.PI); ctx.fill();
+  ctx.strokeStyle = g.dunkel; ctx.stroke();
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath();
+  ctx.moveTo(-5, -14); ctx.lineTo(-8, -18); ctx.lineTo(-3, -12); ctx.closePath(); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(5, -14); ctx.lineTo(8, -18); ctx.lineTo(3, -12); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(0, -10, 5, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = ragt ? "#ff2200" : "#ffaa00";
+  ctx.beginPath(); ctx.arc(-2, -10, 1.5, 0, 2 * Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(2, -10, 1.5, 0, 2 * Math.PI); ctx.fill();
+  if (ragt) {
+    ctx.fillStyle = "#ff4400";
+    for (let i = 0; i < 4; i++) {
+      const ox = (Math.random() - 0.5) * 16;
+      const fh = 4 + Math.random() * 6;
       ctx.beginPath();
-      ctx.moveTo(t.px, t.py);
-      ctx.lineTo(t.px + dx/d*18, t.py + dy/d*18);
-      ctx.stroke(); ctx.lineWidth = 1;
+      ctx.moveTo(ox - 2, 12); ctx.lineTo(ox, 12 - fh); ctx.lineTo(ox + 2, 12);
+      ctx.closePath(); ctx.fill();
     }
   }
 }
+
+function zeichneMiniM(g, now) {
+  const puls = 1 + 0.15 * Math.sin(now / 150);
+  ctx.fillStyle = g.dunkel;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.2 * puls, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = g.farbe;
+  ctx.beginPath(); ctx.arc(0, 0, QUAD * 0.16 * puls, 0, 2 * Math.PI); ctx.fill();
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath(); ctx.arc(0, 0, 2, 0, 2 * Math.PI); ctx.fill();
+}
+
+// ====== SPIELLOGIK ======
 
 function verarbeiteSpawns() {
   if (!welleAktiv) return;
   const now = Date.now();
-  if (spawnQueue.length > 0 && now - letzterSpawn >= 1000) {
+  if (spawnQueue.length > 0 && (now - letzterSpawn) >= 1000) {
     const def = spawnQueue.shift();
-    gegner.push(erzeugeGegner(def, PFAD[0].x*QUAD+QUAD/2, PFAD[0].y*QUAD+QUAD/2, 1));
+    gegner.push(erzeugeGegner(def, PFAD[0].x * QUAD + QUAD/2, PFAD[0].y * QUAD + QUAD/2, 1));
     letzterSpawn = now;
   }
   if (spawnQueue.length === 0 && gegner.length === 0) {
@@ -457,14 +894,16 @@ function verarbeiteSpawns() {
 }
 
 function verarbeiteFaehigkeiten(now) {
-  for (const g of gegner) {
+  for (let i = 0; i < gegner.length; i++) {
+    const g = gegner[i];
     if (g.faehigkeit === "heiler") {
-      if (now - g.lastHeil >= g.heilIntervall) {
+      if ((now - g.lastHeil) >= g.heilIntervall) {
         g.lastHeil = now;
         let geheilt = false;
-        for (const other of gegner) {
-          if (other.hp < other.maxHp && Math.hypot(other.px-g.px, other.py-g.py) <= g.heilRadius) {
-            other.hp = Math.min(other.maxHp, other.hp + g.heilProTick);
+        for (let j = 0; j < gegner.length; j++) {
+          const o = gegner[j];
+          if (o.hp < o.maxHp && Math.hypot(o.px - g.px, o.py - g.py) <= g.heilRadius) {
+            o.hp = Math.min(o.maxHp, o.hp + g.heilProTick);
             geheilt = true;
           }
         }
@@ -474,107 +913,37 @@ function verarbeiteFaehigkeiten(now) {
   }
 }
 
-function bewegeUndZeichneGegner(dt, now) {
-  for (let i = gegner.length-1; i >= 0; i--) {
+function bewegeGegner(dt, now) {
+  for (let i = gegner.length - 1; i >= 0; i--) {
     const g = gegner[i];
     if (g.idx >= PFAD.length) {
       gegner.splice(i, 1);
-      leben = Math.max(0, leben-1); aktualisiereHUD();
+      leben = Math.max(0, leben - 1); aktualisiereHUD();
       if (leben <= 0) zeigeEnde(false);
       continue;
     }
     let effSpeed = g.speed;
-    const ragt = g.faehigkeit === "rage" && g.hp/g.maxHp < g.rageSchwelle;
+    const ragt = (g.faehigkeit === "rage") && (g.hp / g.maxHp < g.rageSchwelle);
     if (ragt) effSpeed *= g.rageBonus;
-
     const ziel = PFAD[g.idx];
-    const tx = ziel.x*QUAD+QUAD/2, ty = ziel.y*QUAD+QUAD/2;
-    const dx = tx-g.px, dy = ty-g.py;
+    const tx = ziel.x * QUAD + QUAD/2, ty = ziel.y * QUAD + QUAD/2;
+    const dx = tx - g.px, dy = ty - g.py;
     const dist = Math.hypot(dx, dy);
-    const schritt = effSpeed * (dt/16);
-    if (dist <= schritt) { g.px=tx; g.py=ty; g.idx++; }
-    else { g.px+=dx/dist*schritt; g.py+=dy/dist*schritt; }
-
-    // Heiler-Aura
-    if (g.faehigkeit === "heiler") {
-      ctx.save();
-      ctx.globalAlpha = 0.1;
-      ctx.fillStyle = "#22ff66";
-      ctx.beginPath(); ctx.arc(g.px, g.py, g.heilRadius, 0, 2*Math.PI); ctx.fill();
-      ctx.globalAlpha = 0.35;
-      ctx.strokeStyle = "#22ff88"; ctx.lineWidth = 1;
-      ctx.setLineDash([4,4]);
-      ctx.beginPath(); ctx.arc(g.px, g.py, g.heilRadius, 0, 2*Math.PI); ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.restore();
-      if (g.heilEffekt && now - g.heilEffekt < 300) {
-        const t = (now - g.heilEffekt) / 300;
-        ctx.globalAlpha = (1-t) * 0.7;
-        ctx.strokeStyle = "#88ff99"; ctx.lineWidth = 3;
-        ctx.beginPath(); ctx.arc(g.px, g.py, g.heilRadius*t, 0, 2*Math.PI); ctx.stroke();
-        ctx.globalAlpha = 1; ctx.lineWidth = 1;
-      }
-    }
-
-    // Rasender-Glühen
-    if (ragt) {
-      ctx.save();
-      ctx.globalAlpha = 0.45 + 0.25*Math.sin(now/90);
-      ctx.fillStyle = "#ff0044";
-      ctx.beginPath(); ctx.arc(g.px, g.py, QUAD*0.55, 0, 2*Math.PI); ctx.fill();
-      ctx.restore();
-    }
-
-    // Körper
-    ctx.fillStyle = g.farbe;
-    ctx.fillRect(g.px-QUAD/2+2, g.py-QUAD/2+2, QUAD-4, QUAD-4);
-
-    // Schild-Ring
-    if (g.faehigkeit === "schild") {
-      ctx.strokeStyle = "#ccddff"; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.arc(g.px, g.py, QUAD*0.45, 0, 2*Math.PI); ctx.stroke();
-      ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(g.px, g.py, QUAD*0.45, 0, 2*Math.PI); ctx.stroke();
-    }
-
-    // Splitter rotierende Punkte
-    if (g.faehigkeit === "splitter") {
-      ctx.fillStyle = "#ff99cc";
-      for (let k = 0; k < 3; k++) {
-        const ang = (Math.PI*2/3)*k + now/600;
-        ctx.beginPath();
-        ctx.arc(g.px+Math.cos(ang)*8, g.py+Math.sin(ang)*8, 2.5, 0, 2*Math.PI);
-        ctx.fill();
-      }
-    }
-
-    // Fähigkeits-Icon
-    let icon = "";
-    if (g.faehigkeit === "heiler") icon = "+";
-    else if (g.faehigkeit === "schild") icon = "◊";
-    else if (g.faehigkeit === "splitter") icon = "✦";
-    else if (g.faehigkeit === "rage") icon = "!";
-    if (icon) {
-      ctx.fillStyle = "#fff"; ctx.font = "bold 14px Arial"; ctx.textAlign = "center";
-      ctx.fillText(icon, g.px, g.py+5);
-      ctx.textAlign = "left";
-    }
-
-    // HP-Balken
-    const pct = Math.max(0, g.hp/g.maxHp);
-    ctx.fillStyle = "#111"; ctx.fillRect(g.px-QUAD/2+1, g.py-QUAD/2-8, QUAD-2, 5);
-    ctx.fillStyle = pct>0.6 ? "#33cc33" : pct>0.3 ? "#ffaa00" : "#ff3333";
-    ctx.fillRect(g.px-QUAD/2+1, g.py-QUAD/2-8, (QUAD-2)*pct, 5);
+    const schritt = effSpeed * (dt / 16);
+    if (dist <= schritt) { g.px = tx; g.py = ty; g.idx++; }
+    else { g.px += dx / dist * schritt; g.py += dy / dist * schritt; }
+    g.walkPhase += (dt / 16) * effSpeed * 0.5;
   }
 }
 
 function findeZiel(t) {
-  if (!t.target || t.target.hp<=0 || !gegner.includes(t.target) ||
-      Math.hypot(t.target.px-t.px, t.target.py-t.py) > t.reichweite) {
+  if (!t.target || t.target.hp <= 0 || gegner.indexOf(t.target) < 0 ||
+      Math.hypot(t.target.px - t.px, t.target.py - t.py) > t.reichweite) {
     t.target = null;
     let besteIdx = -1;
-    for (const g of gegner) {
-      if (Math.hypot(g.px-t.px, g.py-t.py) <= t.reichweite && g.idx > besteIdx) {
+    for (let i = 0; i < gegner.length; i++) {
+      const g = gegner[i];
+      if (Math.hypot(g.px - t.px, g.py - t.py) <= t.reichweite && g.idx > besteIdx) {
         besteIdx = g.idx; t.target = g;
       }
     }
@@ -582,7 +951,8 @@ function findeZiel(t) {
 }
 
 function verarbeiteTuerme(now) {
-  for (const t of tuerme) {
+  for (let i = 0; i < tuerme.length; i++) {
+    const t = tuerme[i];
     findeZiel(t);
     if (t.typ === "laser") {
       if (t.target) {
@@ -592,69 +962,117 @@ function verarbeiteTuerme(now) {
         ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1; ctx.globalAlpha = 0.5;
         ctx.beginPath(); ctx.moveTo(t.px, t.py); ctx.lineTo(t.target.px, t.target.py); ctx.stroke();
         ctx.restore();
-        if (now - t.lastShot >= t.feuerrate) {
+        if (Math.random() < 0.3) spawnePartikel(t.target.px, t.target.py, "#aaffff", 1, 2);
+        if ((now - t.lastShot) >= t.feuerrate) {
           t.lastShot = now;
           if (tueSchaden(t.target, t.schaden)) t.target = null;
         }
       }
     } else if (t.typ === "rakete") {
-      if (t.target && now - t.lastShot >= t.feuerrate) {
+      if (t.target && (now - t.lastShot) >= t.feuerrate) {
         t.lastShot = now;
+        t.recoil = 1; t.muzzleFlash = 1;
         projektile.push({px:t.px, py:t.py, target:t.target, schaden:t.schaden, isRakete:true, splash:t.splash});
       }
     } else {
-      if (t.target && now - t.lastShot >= t.feuerrate) {
+      if (t.target && (now - t.lastShot) >= t.feuerrate) {
         t.lastShot = now;
+        t.recoil = 1; t.muzzleFlash = 1;
         projektile.push({px:t.px, py:t.py, target:t.target, schaden:t.schaden});
       }
     }
   }
 }
 
-function bewegeUndZeichneProjektile(now) {
-  for (let i = projektile.length-1; i >= 0; i--) {
+function bewegeUndZeichneProjektile(now, dt) {
+  for (let i = projektile.length - 1; i >= 0; i--) {
     const p = projektile[i];
-    if (!p.target || p.target.hp <= 0) { projektile.splice(i,1); continue; }
-    const dx = p.target.px-p.px, dy = p.target.py-p.py;
+    if (!p.target || p.target.hp <= 0) { projektile.splice(i, 1); continue; }
+    const dx = p.target.px - p.px, dy = p.target.py - p.py;
     const dist = Math.hypot(dx, dy);
-    if (dist < 8) {
+    if (dist < 10) {
       if (p.isRakete) {
         const ex = p.target.px, ey = p.target.py;
-        const treffer = gegner.filter(g => Math.hypot(g.px-ex, g.py-ey) <= p.splash);
-        for (const g of treffer) tueSchaden(g, p.schaden);
+        const treffer = [];
+        for (let j = 0; j < gegner.length; j++) {
+          const g = gegner[j];
+          if (Math.hypot(g.px - ex, g.py - ey) <= p.splash) treffer.push(g);
+        }
+        for (let j = 0; j < treffer.length; j++) tueSchaden(treffer[j], p.schaden);
         explosionen.push({px:ex, py:ey, r:p.splash, start:now});
+        spawnePartikel(ex, ey, "#ff6600", 20, 4);
+        spawnePartikel(ex, ey, "#ffcc00", 15, 3);
       } else {
         tueSchaden(p.target, p.schaden);
+        spawnePartikel(p.target.px, p.target.py, "#ffff00", 4, 2);
       }
       projektile.splice(i, 1);
       continue;
     }
     const spd = p.isRakete ? 7 : 12;
-    p.px += dx/dist*spd; p.py += dy/dist*spd;
+    p.px += dx / dist * spd; p.py += dy / dist * spd;
     if (p.isRakete) {
-      ctx.beginPath(); ctx.arc(p.px, p.py, 7, 0, 2*Math.PI);
-      ctx.fillStyle = "#ff6600"; ctx.fill();
-      ctx.strokeStyle = "#ffcc00"; ctx.lineWidth = 2; ctx.stroke(); ctx.lineWidth = 1;
+      const ang = Math.atan2(dy, dx);
+      if (Math.random() < 0.7) {
+        partikel.push({x:p.px, y:p.py, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5,
+                       farbe:"#888", life:0.6, groesse:3+Math.random()*2});
+      }
+      ctx.save();
+      ctx.translate(p.px, p.py);
+      ctx.rotate(ang);
+      ctx.fillStyle = "#cc5500";
+      ctx.fillRect(-6, -3, 12, 6);
+      ctx.fillStyle = "#ff8844";
+      ctx.beginPath();
+      ctx.moveTo(6, -3); ctx.lineTo(10, 0); ctx.lineTo(6, 3); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#ffaa00";
+      ctx.beginPath();
+      ctx.moveTo(-6, -2); ctx.lineTo(-12, 0); ctx.lineTo(-6, 2); ctx.closePath(); ctx.fill();
+      ctx.restore();
     } else {
-      ctx.beginPath(); ctx.arc(p.px, p.py, 5, 0, 2*Math.PI);
+      ctx.beginPath(); ctx.arc(p.px, p.py, 5, 0, 2 * Math.PI);
       ctx.fillStyle = "#ffff00"; ctx.fill();
-      ctx.strokeStyle = "rgba(255,220,0,0.4)"; ctx.lineWidth = 2; ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(p.px - 1, p.py - 1, 1.5, 0, 2 * Math.PI); ctx.fill();
     }
   }
 }
 
 function zeichneExplosionen(now) {
-  for (let i = explosionen.length-1; i >= 0; i--) {
+  for (let i = explosionen.length - 1; i >= 0; i--) {
     const e = explosionen[i];
     const alter = now - e.start;
-    const dauer = 350;
-    if (alter > dauer) { explosionen.splice(i,1); continue; }
-    const fortschritt = alter / dauer;
-    ctx.globalAlpha = (1 - fortschritt) * 0.6;
-    ctx.beginPath(); ctx.arc(e.px, e.py, e.r * fortschritt, 0, 2*Math.PI);
-    ctx.fillStyle = "#ff6600"; ctx.fill();
-    ctx.strokeStyle = "#ffcc00"; ctx.lineWidth = 2; ctx.stroke();
+    const dauer = 450;
+    if (alter > dauer) { explosionen.splice(i, 1); continue; }
+    const t = alter / dauer;
+    ctx.globalAlpha = (1 - t) * 0.7;
+    ctx.fillStyle = "#ff6600";
+    ctx.beginPath(); ctx.arc(e.px, e.py, e.r * t, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = (1 - t) * 0.5;
+    ctx.fillStyle = "#ffcc00";
+    ctx.beginPath(); ctx.arc(e.px, e.py, e.r * t * 0.7, 0, 2 * Math.PI); ctx.fill();
+    ctx.globalAlpha = (1 - t);
+    ctx.strokeStyle = "#ffff88"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(e.px, e.py, e.r * t, 0, 2 * Math.PI); ctx.stroke();
     ctx.globalAlpha = 1; ctx.lineWidth = 1;
+  }
+}
+
+function zeichneIcons() {
+  for (let i = 0; i < gegner.length; i++) {
+    const g = gegner[i];
+    let icon = "";
+    if (g.faehigkeit === "heiler") icon = "+";
+    else if (g.faehigkeit === "schild") icon = "S";
+    else if (g.faehigkeit === "splitter") icon = "X";
+    else if (g.faehigkeit === "rage") icon = "!";
+    if (icon) {
+      ctx.fillStyle = "rgba(0,0,0,0.6)";
+      ctx.beginPath(); ctx.arc(g.px + QUAD * 0.32, g.py - QUAD * 0.32, 7, 0, 2 * Math.PI); ctx.fill();
+      ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px Arial"; ctx.textAlign = "center";
+      ctx.fillText(icon, g.px + QUAD * 0.32, g.py - QUAD * 0.28);
+      ctx.textAlign = "left";
+    }
   }
 }
 
@@ -662,45 +1080,69 @@ function zeichneStatusLeiste() {
   ctx.fillStyle = "rgba(0,0,0,0.5)";
   ctx.fillRect(0, 0, canvas.width, 22);
   ctx.fillStyle = "#ccc"; ctx.font = "bold 12px Arial";
-  if (!welleAktiv && welleNr < WELLEN.length)
-    ctx.fillText("▶  Welle " + (welleNr+1) + " bereit — klicke 'Welle starten'", 8, 15);
-  else if (welleAktiv)
-    ctx.fillText("⚔  Welle " + welleNr + " / " + WELLEN.length + "   Verbleibend: " + (gegner.length + spawnQueue.length), 8, 15);
-  else
-    ctx.fillText("✔  Alle Wellen geschafft!", 8, 15);
+  if (!welleAktiv && welleNr < WELLEN.length) {
+    ctx.fillText("Welle " + (welleNr + 1) + " bereit - 'Welle starten' klicken", 8, 15);
+  } else if (welleAktiv) {
+    ctx.fillText("Welle " + welleNr + " / " + WELLEN.length + "  Verbleibend: " + (gegner.length + spawnQueue.length), 8, 15);
+  } else {
+    ctx.fillText("Alle Wellen geschafft!", 8, 15);
+  }
 }
 
 function zeigeEnde(gewonnen) {
   spielOK = false;
-  document.getElementById("modal-titel").textContent = gewonnen ? "🏆 Gewonnen!" : "💀 Verloren!";
+  document.getElementById("modal-titel").textContent = gewonnen ? "Gewonnen!" : "Verloren!";
   document.getElementById("modal-info").textContent = gewonnen
-    ? "Alle " + WELLEN.length + " Wellen besiegt! Verbleibendes Gold: " + gold
+    ? "Alle " + WELLEN.length + " Wellen besiegt! Gold: " + gold
     : "Die Gegner haben deine Basis erreicht!";
   document.getElementById("overlay-modal").classList.add("zeigen");
 }
 
 let letzteZeit = 0;
 function spielSchleife(ts) {
-  const dt = Math.min(ts - letzteZeit, 50);
-  letzteZeit = ts;
-  const now = Date.now();
-
-  zeichneKarte();
-  zeichneHover();
-  zeichneTuerme();
-  verarbeiteSpawns();
-  verarbeiteFaehigkeiten(now);
-  bewegeUndZeichneGegner(dt, now);
-  verarbeiteTuerme(now);
-  bewegeUndZeichneProjektile(now);
-  zeichneExplosionen(now);
-  zeichneStatusLeiste();
-
+  try {
+    const dt = Math.min(ts - letzteZeit, 50);
+    letzteZeit = ts;
+    const now = Date.now();
+    zeichneKarte();
+    zeichneHover();
+    verarbeiteSpawns();
+    verarbeiteFaehigkeiten(now);
+    bewegeGegner(dt, now);
+    for (let i = 0; i < tuerme.length; i++) zeichneTurmModell(tuerme[i], now);
+    for (let i = 0; i < gegner.length; i++) zeichneGegnerModell(gegner[i], now);
+    verarbeiteTuerme(now);
+    bewegeUndZeichneProjektile(now, dt);
+    zeichneExplosionen(now);
+    aktualisiereUndZeichnePartikel(dt);
+    zeichneIcons();
+    zeichneStatusLeiste();
+  } catch (e) {
+    console.error("Spielfehler:", e);
+    ctx.fillStyle = "rgba(0,0,0,0.9)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ff5555"; ctx.font = "bold 13px monospace"; ctx.textAlign = "center";
+    ctx.fillText("FEHLER (siehe Konsole):", canvas.width / 2, 60);
+    ctx.fillStyle = "#fff"; ctx.font = "11px monospace";
+    const msg = String(e && e.message ? e.message : e);
+    const woerter = msg.split(" ");
+    let zeile = "", y = 90;
+    for (let i = 0; i < woerter.length; i++) {
+      if ((zeile + " " + woerter[i]).length > 55) {
+        ctx.fillText(zeile, canvas.width / 2, y);
+        zeile = woerter[i]; y += 16;
+      } else {
+        zeile = zeile ? zeile + " " + woerter[i] : woerter[i];
+      }
+    }
+    if (zeile) ctx.fillText(zeile, canvas.width / 2, y);
+    ctx.textAlign = "left";
+  }
   requestAnimationFrame(spielSchleife);
 }
 
 neuesSpiel();
-requestAnimationFrame(ts => { letzteZeit = ts; requestAnimationFrame(spielSchleife); });
+requestAnimationFrame(function(ts) { letzteZeit = ts; requestAnimationFrame(spielSchleife); });
 </script>
 </body>
 </html>
